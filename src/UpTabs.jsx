@@ -5,13 +5,7 @@ import RenderTable from "./RenderTable.jsx";
 export default () => {
   const [key, setKey] = useState('');
 
-  const setState = (k) => {
-    if (key === k) {
-      setKey('');
-    } else {
-      setKey(k);
-    }
-  };
+  const setState = (k) => key === k ? setKey('') : setKey(k);
 
   return (
     <Tabs

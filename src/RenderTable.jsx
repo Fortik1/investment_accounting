@@ -39,6 +39,8 @@ export default () => {
   };
   getData();
 
+  console.log(data);
+
   return (
     <>
       <Table striped bordered variant="cdcdcd">
