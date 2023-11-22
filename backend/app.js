@@ -17,14 +17,17 @@ export default () => {
     
     const currentLimit = limit && limit > 0 ? limit : 10;
     const dataList = _.chunk(JSON.parse(data), currentLimit);
-    const currentPage = page && page > 0 
-      ? page > dataList.length 
-      ? dataList.length 
-      : page 
-      : 1;
-    const currentDataPage = dataList[currentPage - 1];
+    const currentPage = Math.min((page && page > 0 ? page : 1), dataList.length - 1);
+    const currentDataPage = dataList[currentPage];
+    
+    const result = {
+      limit: Number(currentLimit),
+      page: Number(currentPage),
+      count: dataList.length - 1,
+      data: currentDataPage
+    };
 
-    res.send(currentDataPage);
+    res.send(result);
   });
 
   return app;
