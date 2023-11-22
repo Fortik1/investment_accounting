@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import React from "react";
-import UpTabs from './UpTabs.jsx';
+import UpTabs from './upTabs/UpTabs.jsx';
 
 export default () => {
   return (

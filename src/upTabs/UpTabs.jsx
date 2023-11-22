@@ -13,7 +13,7 @@ export default () => {
       onSelect={setState}
       className="mb-3"
     >
-      <Tab eventKey="transactio" title="Table">
+      <Tab eventKey="transaction" title="transaction">
           <RenderTable />
       </Tab>
       <Tab eventKey="profile" title="Profile">
