@@ -3,6 +3,7 @@ import axios from "axios";
 import { Table } from "react-bootstrap";
 import { uniqueId } from "lodash";
 import RenderPagination from "./RenderPagination.jsx"
+import RenderLimitList from "./RenderLimitList.jsx";
 
 const RenderTags = ({ tags }) => {
   return (
@@ -32,23 +33,34 @@ const RenderBody = ({ body }) => {
 };
 
 export default () => {
-  const [reqData, setReqData] = useState({ data: [], page: 1, limit: 10, count: 0 }); 
+  const [reqData, setReqData] = useState({ data: [], page: 1, limit: 25, count: 0 });
 
   useEffect(() => {
     const { page, limit } = reqData;
     const getData = async () => await axios.get(`http://localhost:8080/transactions?page=${page}&limit=${limit}`)
     .then(({ data }) => setReqData(data));
     getData();
-  }, [reqData.page]);
-
-  console.log(reqData);
+  }, [reqData.page, reqData.limit]);
 
   return (
-      <Table striped bordered variant="cdcdcd">
-        {reqData.data.length !== 0 && <RenderTags tags={reqData.data[0]}/>}
-        {reqData.data.length !== 0 && <RenderBody body={reqData.data}/>}
-        <br />
-        {reqData.data.length !== 0 && <RenderPagination reqData={reqData} setReqData={setReqData} />}
-      </Table> 
-  )
+      <>
+      <div className="scroll-table">
+        <Table>
+          {reqData.data.length !== 0 && <RenderTags tags={reqData.data[0]}/>}
+        </Table>
+      </div>
+      <div className="scroll-table-body">
+        <Table>
+          {reqData.data.length !== 0 && <RenderBody body={reqData.data}/>}
+        </Table>
+      </div>
+      <div className="pagination-limit">
+        {reqData.data.length !== 0 && 
+          <tr>
+            <th><RenderLimitList reqData={reqData} setReqData={setReqData} /></th>
+            <th><RenderPagination reqData={reqData} setReqData={setReqData} /></th>
+          </tr>}
+      </div>
+      </>
+  );
 };
