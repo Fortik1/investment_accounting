@@ -7,7 +7,7 @@ import RenderLimitList from "./RenderLimitList.jsx";
 
 const RenderTags = ({ tags }) => {
   return (
-    <thead>
+    <thead className="thead scroll-table">
       <tr>
         {Object.keys(tags).map((key) => 
           <th key={key}>
@@ -21,7 +21,7 @@ const RenderTags = ({ tags }) => {
 
 const RenderBody = ({ body }) => {
   return (
-    <tbody>
+    <tbody className="tbody">
       {body.map((element) => 
         <tr key={uniqueId()}>
           {Object.values(element).map((value) => 
@@ -33,7 +33,7 @@ const RenderBody = ({ body }) => {
 };
 
 export default () => {
-  const [reqData, setReqData] = useState({ data: [], page: 1, limit: 25, count: 0 });
+  const [reqData, setReqData] = useState({ data: [''], page: 1, limit: 25, count: 0 });
 
   useEffect(() => {
     const { page, limit } = reqData;
@@ -44,15 +44,15 @@ export default () => {
 
   return (
       <>
-      <div className="scroll-table">
-        <Table>
-          {reqData.data.length !== 0 && <RenderTags tags={reqData.data[0]}/>}
-        </Table>
-      </div>
-      <div className="scroll-table-body">
-        <Table>
-          {reqData.data.length !== 0 && <RenderBody body={reqData.data}/>}
-        </Table>
+      <div class="scroll-table">
+	      <table>
+          <RenderTags tags={reqData.data[0]} />
+	      </table>	
+	      <div class="scroll-table-body">
+		      <table>
+            <RenderBody body={reqData.data} />
+		      </table>
+	      </div>	
       </div>
       <div className="pagination-limit">
         {reqData.data.length !== 0 && 
@@ -64,3 +64,8 @@ export default () => {
       </>
   );
 };
+
+{/* <table className="table">
+        <RenderTags tags={reqData.data[0]} />
+        <RenderBody body={reqData.data} />
+      </table> */}
