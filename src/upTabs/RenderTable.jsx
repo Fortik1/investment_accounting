@@ -1,34 +1,34 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Table } from "react-bootstrap";
 import { uniqueId } from "lodash";
 import RenderPagination from "./RenderPagination.jsx"
 import RenderLimitList from "./RenderLimitList.jsx";
 
 const RenderTags = ({ tags }) => {
   return (
-    <thead className="thead scroll-table">
-      <tr>
+        <>
+        <div className="tags">
         {Object.keys(tags).map((key) => 
-          <th key={key}>
+          <div className="col" key={key}>
             {key}
-          </th>
+          </div>
         )}
-      </tr>
-    </thead>
+        </div>
+        </>
   )
 };
 
 const RenderBody = ({ body }) => {
   return (
-    <tbody className="tbody">
+      <>
       {body.map((element) => 
-        <tr key={uniqueId()}>
+        <div className="body" key={uniqueId()}>
           {Object.values(element).map((value) => 
-            <td key={value}>{value}</td>
+            <div className="col" key={value}>{value}</div>
           )}
-        </tr>)}
-    </tbody>
+        </div>
+        )}
+      </>
   )
 };
 
@@ -44,15 +44,9 @@ export default () => {
 
   return (
       <>
-      <div class="scroll-table">
-	      <table>
-          <RenderTags tags={reqData.data[0]} />
-	      </table>	
-	      <div class="scroll-table-body">
-		      <table>
-            <RenderBody body={reqData.data} />
-		      </table>
-	      </div>	
+      <div className="table">
+        <RenderTags tags={reqData.data[0]}/>
+        <RenderBody body={reqData.data} />
       </div>
       <div className="pagination-limit">
         {reqData.data.length !== 0 && 
@@ -64,6 +58,64 @@ export default () => {
       </>
   );
 };
+
+
+
+
+
+
+
+
+
+
+
+{/* 
+
+
+const RenderTags = ({ tags }) => {
+  return (
+    <thead className="thead scroll-table">
+      <tr>
+        {Object.keys(tags).map((key) => 
+          <th key={key}>
+            {key}
+          </th>
+        )}
+      </tr>
+    </thead>
+  )
+};
+
+
+
+
+const RenderBody = ({ body }) => {
+  return (
+    <tbody className="tbody">
+      {body.map((element) => 
+        <tr key={uniqueId()}>
+          {Object.values(element).map((value) => 
+            <td key={value}>{value}</td>
+          )}
+        </tr>)}
+    </tbody>
+  )
+};
+
+
+
+
+<div class="scroll-table">
+	      <table>
+          <RenderTags tags={reqData.data[0]} />
+	      </table>	
+	      <div class="scroll-table-body">
+		      <table>
+            <RenderBody body={reqData.data} />
+		      </table>
+	      </div>	
+      </div>
+      <br /> */}
 
 {/* <table className="table">
         <RenderTags tags={reqData.data[0]} />
