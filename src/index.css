@@ -40,9 +40,17 @@ html, body {
   background: white;
 }
 
+#number {
+  justify-content: right;
+}
+
+#string {
+  justify-content: left;
+}
+
 .col {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   white-space: nowrap; 
   overflow: hidden; 
   text-overflow: ellipsis;

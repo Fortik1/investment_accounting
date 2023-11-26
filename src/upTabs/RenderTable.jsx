@@ -24,7 +24,9 @@ const RenderBody = ({ body }) => {
       {body.map((element) => 
         <div className="body" key={uniqueId()}>
           {Object.values(element).map((value) => 
-            <div className="col" key={value}>{value}</div>
+            typeof value === 'number' 
+              ? <div className="col" id="number" key={value}>{value}</div>
+              : <div className="col" id="string" key={value}>{value}</div>
           )}
         </div>
         )}
