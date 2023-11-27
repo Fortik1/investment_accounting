@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import RenderTable from "./RenderTable.jsx";
 
-export default () => {
+const UpTabs = () => {
   const [key, setKey] = useState('');
 
   const setState = (k) => key === k ? setKey('') : setKey(k);
@@ -14,11 +14,13 @@ export default () => {
       className="mb-3"
     >
       <Tab eventKey="transaction" title="transaction">
-          <RenderTable />
+        <RenderTable link={'transactions'}/>
       </Tab>
-      <Tab eventKey="profile" title="Profile">
-        Tab content for Profile
+      <Tab eventKey="bonds" title="Bonds">
+        <RenderTable link={'bonds'}/>
       </Tab>
     </Tabs>
   )
 };
+
+export default UpTabs;

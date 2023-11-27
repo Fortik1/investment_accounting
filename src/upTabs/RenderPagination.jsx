@@ -39,7 +39,7 @@ const RenderPagination = ({ reqData, setReqData }) => {
   
   const buttonPages = getButtonPages(page, count);
 
-  console.log(buttonPages);
+
   return ( // TODO
     <Pagination>
       <Pagination.Prev onClick={prev} />

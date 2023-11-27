@@ -1,7 +1,7 @@
 import React from "react";
 import { Dropdown, DropdownButton, ButtonGroup } from "react-bootstrap";
 
-export default ({ reqData, setReqData }) => {
+const RenderLimitList = ({ reqData, setReqData }) => {
   const { limit } = reqData;
   const limitList = [10, 25, 50];
 
@@ -29,3 +29,5 @@ export default ({ reqData, setReqData }) => {
     </>
   )
 };
+
+export default RenderLimitList;

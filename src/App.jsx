@@ -1,8 +1,10 @@
 import React from "react";
 import UpTabs from './upTabs/UpTabs.jsx';
 
-export default () => {
+const App = () => {
   return (
     <UpTabs />
   )
 };
+
+export default App;

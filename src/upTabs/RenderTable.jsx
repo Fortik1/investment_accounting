@@ -3,8 +3,10 @@ import axios from "axios";
 import { uniqueId } from "lodash";
 import RenderPagination from "./RenderPagination.jsx"
 import RenderLimitList from "./RenderLimitList.jsx";
+import filterData from "./filterData.js";
 
 const RenderTags = ({ tags }) => {
+  console.log(tags);
   return (
         <>
         <div className="tags">
@@ -34,13 +36,13 @@ const RenderBody = ({ body }) => {
   )
 };
 
-export default () => {
+const RenderTable = ({ link }) => {
   const [reqData, setReqData] = useState({ data: [''], page: 1, limit: 25, count: 0 });
 
   useEffect(() => {
     const { page, limit } = reqData;
-    const getData = async () => await axios.get(`http://localhost:8080/transactions?page=${page}&limit=${limit}`)
-    .then(({ data }) => setReqData(data));
+    const getData = async () => await axios.get(`http://localhost:8080/${link}?page=${page}&limit=${limit}`)
+    .then(({ data }) => setReqData(filterData(data)));
     getData();
   }, [reqData.page, reqData.limit]);
 
@@ -61,65 +63,4 @@ export default () => {
   );
 };
 
-
-
-
-
-
-
-
-
-
-
-{/* 
-
-
-const RenderTags = ({ tags }) => {
-  return (
-    <thead className="thead scroll-table">
-      <tr>
-        {Object.keys(tags).map((key) => 
-          <th key={key}>
-            {key}
-          </th>
-        )}
-      </tr>
-    </thead>
-  )
-};
-
-
-
-
-const RenderBody = ({ body }) => {
-  return (
-    <tbody className="tbody">
-      {body.map((element) => 
-        <tr key={uniqueId()}>
-          {Object.values(element).map((value) => 
-            <td key={value}>{value}</td>
-          )}
-        </tr>)}
-    </tbody>
-  )
-};
-
-
-
-
-<div class="scroll-table">
-	      <table>
-          <RenderTags tags={reqData.data[0]} />
-	      </table>	
-	      <div class="scroll-table-body">
-		      <table>
-            <RenderBody body={reqData.data} />
-		      </table>
-	      </div>	
-      </div>
-      <br /> */}
-
-{/* <table className="table">
-        <RenderTags tags={reqData.data[0]} />
-        <RenderBody body={reqData.data} />
-      </table> */}
+export default RenderTable;
