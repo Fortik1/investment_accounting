@@ -23,10 +23,9 @@ html, body {
 }
 
 .table {
-  width: 100%;
   padding: 0 20px;
   height: 650px;
-  overflow: auto;
+  overflow-x: auto;
 }
 
 .table div.body:nth-child(odd) {
@@ -39,8 +38,9 @@ html, body {
   top: 0;
   background: white;
 }
-
-#number {
+div #count,
+div #number {
+  max-width: 50px;
   justify-content: right;
 }
 
@@ -49,7 +49,6 @@ html, body {
 }
 
 .col {
-  display: flex;
   justify-content: left;
   white-space: nowrap; 
   overflow: hidden; 

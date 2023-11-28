@@ -11,7 +11,7 @@ const RenderTags = ({ tags }) => {
         <>
         <div className="tags">
         {Object.keys(tags).map((key) => 
-          <div className="col" key={key}>
+          <div className="col" key={key} id={ key.toLowerCase() === 'count' ? 'count' : null }>
             {key}
           </div>
         )}
@@ -25,7 +25,7 @@ const RenderBody = ({ body }) => {
       <>
       {body.map((element) => 
         <div className="body" key={uniqueId()}>
-          {Object.values(element).map((value) => 
+          {Object.entries(element).map(([key, value]) => 
             typeof value === 'number' 
               ? <div className="col" id="number" key={value}>{value}</div>
               : <div className="col" id="string" key={value}>{value}</div>
