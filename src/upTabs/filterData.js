@@ -7,7 +7,7 @@ const filterData = (reqData) => {
   const percentConversionArrayName = ['yield_last', 'yield_avg'];
   data.forEach((el) => {
     percentConversionArrayName.forEach((name) => {
-      el[name] = (el[name] * 100).toFixed(2);
+      if (el[name]) el[name] = (el[name] * 100).toFixed(2);
     });
   });
 

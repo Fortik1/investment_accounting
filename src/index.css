@@ -24,12 +24,13 @@ html, body {
   justify-content: center;
   align-items: center;
   width: 100%;
+  min-width: 700px;
 }
 
 .table {
   padding: 0 20px;
   height: 650px;
-  overflow-x: auto;
+  overflow: auto;
 }
 
 .table div.body:nth-child(odd) {
@@ -45,8 +46,6 @@ html, body {
 
 
 .rigthContent, .leftContent {
-  text-overflow: ellipsis;
-  overflow: hidden;
   white-space: nowrap;
   display: flex;
   padding: 10px 15px;
