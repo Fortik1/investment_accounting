@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import RenderTable from "./table/RenderTable.jsx";
+import Import from './import/import.jsx';
 
 const UpTabs = () => {
   const [key, setKey] = useState('');
@@ -17,7 +18,7 @@ const UpTabs = () => {
         <RenderTable link={'transactions'}/>
       </Tab>
       <Tab eventKey="import" title="Import">
-
+        <Import />
       </Tab>
       <Tab eventKey="bonds" title="Bonds">
         <RenderTable link={'bonds'}/>
