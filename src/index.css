@@ -18,8 +18,12 @@ html, body {
 }
 /* table style */
 
-.table div {
+.tags, .body {
   display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .table {
@@ -38,90 +42,24 @@ html, body {
   top: 0;
   background: white;
 }
-div #count,
-div #number {
-  max-width: 50px;
-  justify-content: right;
-}
 
-#string {
-  justify-content: left;
-}
 
-.col {
-  justify-content: left;
-  white-space: nowrap; 
-  overflow: hidden; 
+.rigthContent, .leftContent {
   text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
   padding: 10px 15px;
 }
 
-/* Стили для скролла */
+.rigthContent {
+  justify-content: right;
+  width: 10%;
+}
 
-
-
-
-
-/* .table {
-  width: 100%;
-  overflow: auto;
+.leftContent {
+  justify-content: left;
+  width: 20%;
 }
 
 
-
-.thead, .tbody tr {
-  display: table;
-  width: 100%;
-}
-
-.tbody {
-  display: block;
-  width: 100%;
-  height: 75vh;
-  overflow: auto;
-} */
-
-/* 
-.scroll-table-body {
-  height: 600px;
-  overflow: auto;
-	margin-top: 0px;
-	margin-bottom: 20px;
-	border-bottom: 1px solid #eee;
-}
-
-.scroll-table table {
-	width:100%;
-	table-layout: fixed;
-	border: none;
-}
-
-.scroll-table thead th {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-	font-weight: bold;
-	text-align: center;
-	border: none;
-	padding: 10px 15px;
-	background: #d8d8d8;
-	font-size: 14px;
-	border-left: 1px solid #ddd;
-	border-right: 1px solid #ddd;
-}
-
-.scroll-table tbody td {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-	text-align: center;
-	border-left: 1px solid #ddd;
-	border-right: 1px solid #ddd;
-	padding: 10px 15px;
-	font-size: 14px;
-	vertical-align: top;
-}
-
-.scroll-table tbody tr:nth-child(even){
-	background: #f3f3f3;
-} */

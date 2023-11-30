@@ -3,6 +3,14 @@ const filterData = (reqData) => {
   const { data } = reqData;
   const firstData = data[0];
 
+
+  const percentConversionArrayName = ['yield_last', 'yield_avg'];
+  data.forEach((el) => {
+    percentConversionArrayName.forEach((name) => {
+      el[name] = (el[name] * 100).toFixed(2);
+    });
+  });
+
   const correctName = {
     'isin': 'ISIN',
     'name': 'Name',

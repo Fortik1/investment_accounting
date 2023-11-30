@@ -5,13 +5,24 @@ import RenderPagination from "./RenderPagination.jsx"
 import RenderLimitList from "./RenderLimitList.jsx";
 import filterData from "./filterData.js";
 
+const getStyle = (key) => {
+  switch (key.toLowerCase()) {
+    case 'count':
+      return 'rigthContent';
+    case 'rating':
+      return 'rigthContent';
+    default:
+      return 'leftContent';
+  }
+};
+
 const RenderTags = ({ tags }) => {
   console.log(tags);
   return (
         <>
         <div className="tags">
         {Object.keys(tags).map((key) => 
-          <div className="col" key={key} id={ key.toLowerCase() === 'count' ? 'count' : null }>
+          <div className={ getStyle(key) } key={key}>
             {key}
           </div>
         )}
@@ -26,9 +37,7 @@ const RenderBody = ({ body }) => {
       {body.map((element) => 
         <div className="body" key={uniqueId()}>
           {Object.entries(element).map(([key, value]) => 
-            typeof value === 'number' 
-              ? <div className="col" id="number" key={value}>{value}</div>
-              : <div className="col" id="string" key={value}>{value}</div>
+            <div className={ getStyle(key) } key={value}>{value}</div>
           )}
         </div>
         )}
