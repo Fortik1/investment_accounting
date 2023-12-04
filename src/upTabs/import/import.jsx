@@ -6,9 +6,9 @@ const Import = () => {
   console.log(file);
 
   return (
-    <div class="mb-3">
-      <label for="formFile" class="form-label">Поддерживаемые брокерские отчеты: Тинькофф, ВТБ</label>
-      <input class="form-control" type="file" id="formFile" event={setFile} />
+    <div className="mb-3">
+      <label htmlFor="formFile" className="form-label">Поддерживаемые брокерские отчеты: Тинькофф, ВТБ</label>
+      <input className="form-control" type="file" id="formFile" event={setFile} />
     </div>
   )
 };
