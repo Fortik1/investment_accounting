@@ -1,9 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
 const Import = () => {
-  const [file, setFile] = useState();
-
-  console.log(file);
 
   return (
     <div className="mb-3">
