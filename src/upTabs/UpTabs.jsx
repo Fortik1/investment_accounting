@@ -9,22 +9,28 @@ const UpTabs = () => {
   const setState = (k) => key === k ? setKey('') : setKey(k);
 
   return (
-    <Tabs
+    <div className='tabs'>
+      <div type='submit'>Transactions</div>
+      <div type='submit'>Import</div>
+      <div type='submit'>Bonds</div>
+    </div>
+  )
+};
+
+{/* <Tabs
       activeKey={key}
       onSelect={setState}
       className="mb-3"
     >
       <Tab eventKey="transaction" title="Transaction">
-        <RenderTable link={'transactions'}/>
+        {<RenderTable link={'transactions'}/>}
       </Tab>
       <Tab eventKey="import" title="Import">
-        <Import />
+        {<Import />}
       </Tab>
       <Tab eventKey="bonds" title="Bonds">
-        <RenderTable link={'bonds'}/>
+        {<RenderTable link={'bonds'}/>}
       </Tab>
-    </Tabs>
-  )
-};
+    </Tabs> */}
 
 export default UpTabs;

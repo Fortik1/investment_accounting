@@ -16,8 +16,8 @@ const getStyle = (key) => {
   }
 };
 
+
 const RenderTags = ({ tags }) => {
-  console.log(tags);
   return (
         <>
         <div className="tags">
@@ -51,7 +51,7 @@ const RenderTable = ({ link }) => {
   useEffect(() => {
     const { page, limit } = reqData;
     const getData = async () => await axios.get(`http://localhost:8080/${link}?page=${page}&limit=${limit}`)
-    .then(({ data }) => setReqData(filterData(data)));
+    .then(({ data }) => console.log(data)); //setReqData(filterData(data))
     getData();
   }, [reqData.page, reqData.limit]);
 

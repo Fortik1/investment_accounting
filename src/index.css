@@ -61,4 +61,21 @@ html, body {
   width: 20%;
 }
 
+/* стили для табов  */
 
+.tabs {
+  display: flex;
+  width: 100%;
+  min-width: 350px;
+  overflow: auto;
+}
+
+.tabs div {
+  border: 1px solid black;
+  
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  margin: 5px 10px;
+  border-radius: 20%;
+}
