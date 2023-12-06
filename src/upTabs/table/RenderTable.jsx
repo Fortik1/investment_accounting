@@ -7,9 +7,11 @@ import filterData from "./filterData.js";
 
 const getStyle = (key) => {
   switch (key.toLowerCase()) {
-    case 'count':
+    case 'quantity':
       return 'rigthContent';
-    case 'rating':
+    case 'price':
+      return 'rigthContent';
+    case 'total amount':
       return 'rigthContent';
     default:
       return 'leftContent';
@@ -22,7 +24,7 @@ const RenderTags = ({ tags }) => {
         <>
         <div className="tags">
         {Object.keys(tags).map((key) => 
-          <div className={ getStyle(key) } key={key}>
+          <div className={ getStyle(key) } key={uniqueId()}>
             {key}
           </div>
         )}
@@ -37,7 +39,7 @@ const RenderBody = ({ body }) => {
       {body.map((element) => 
         <div className="body" key={uniqueId()}>
           {Object.entries(element).map(([key, value]) => 
-            <div className={ getStyle(key) } key={value}>{value}</div>
+            <div className={ getStyle(key) } key={uniqueId()}>{value}</div>
           )}
         </div>
         )}
@@ -45,29 +47,33 @@ const RenderBody = ({ body }) => {
   )
 };
 
-const RenderTable = ({ link }) => {
-  const [reqData, setReqData] = useState({ data: [''], page: 1, limit: 25, count: 0 });
+const RenderTable = () => {
+  const [reqData, setReqData] = useState({ page: 1, limit: 25, });
 
   useEffect(() => {
     const { page, limit } = reqData;
-    const getData = async () => await axios.get(`http://localhost:8080/${link}?page=${page}&limit=${limit}`)
-    .then(({ data }) => console.log(data)); //setReqData(filterData(data))
+    const getData = async () => await axios.get(`http://localhost:8080/transactions?page=${page}&limit=${limit}`)
+    .then(({ data }) => !!data.data && setReqData(filterData(data)));
     getData();
   }, [reqData.page, reqData.limit]);
 
   return (
       <>
-      <div className="table">
-        <RenderTags tags={reqData.data[0]}/>
-        <RenderBody body={reqData.data} />
-      </div>
-      <div className="pagination-limit">
-        {reqData.data.length !== 0 && 
-          <tr>
-            <th><RenderLimitList reqData={reqData} setReqData={setReqData} /></th>
-            <th><RenderPagination reqData={reqData} setReqData={setReqData} /></th>
-          </tr>}
-      </div>
+      {reqData.data && 
+        <>
+        <div className="table">
+          <RenderTags tags={reqData.data[0]}/>
+          <RenderBody body={reqData.data} />
+        </div>
+        <div className="pagination-limit">
+          {reqData.data.length !== 0 && 
+            <tr>
+              <th><RenderLimitList reqData={reqData} setReqData={setReqData} /></th>
+              <th><RenderPagination reqData={reqData} setReqData={setReqData} /></th>
+            </tr>}
+        </div>
+        </>
+         || <div>Loaded</div>}
       </>
   );
 };

@@ -1,21 +1,51 @@
 import React, { useState } from 'react';
-import { Tabs, Tab } from 'react-bootstrap';
 import RenderTable from "./table/RenderTable.jsx";
 import Import from './import/import.jsx';
 
-const UpTabs = () => {
-  const [key, setKey] = useState('');
+const tabs = {
+  transactions : <RenderTable />,
+  import : <Import />,
+  bonds : '',
+}
 
-  const setState = (k) => key === k ? setKey('') : setKey(k);
+const UpTabs = () => {
+  const [key, setKey] = useState('import');
+
+  const setState = (e) => {
+    e.preventDefault();
+
+    setKey(`${e.target.id}`);
+  };
 
   return (
-    <div className='tabs'>
-      <div type='submit'>Transactions</div>
-      <div type='submit'>Import</div>
-      <div type='submit'>Bonds</div>
+    <>
+    <ul className='nav nav-tabs' onClick={setState}>
+      {Object.keys(tabs).map((element) =>
+        <li className='nav-item' type='submit'>
+          <a className={
+              `nav-link ${key === element ? 'active' : '' }`
+            }
+            href='#'
+            id={element}
+          >
+            {element}
+          </a>
+        </li>
+       )}
+    </ul>
+    <div className='content'>
+      {tabs[key]}
     </div>
+    </>
   )
 };
+
+
+{/* <div className='tabs' onClick={setState}>
+      <div type='button' id="transactions" >Transactions</div>
+      <div type='button' id="import" >Import</div> 
+      <div type='button' id="bonds" >Bonds</div>
+    </div> */}
 
 {/* <Tabs
       activeKey={key}
