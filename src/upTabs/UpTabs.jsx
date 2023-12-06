@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import RenderTable from "./table/RenderTable.jsx";
+import RenderTable from "./Table/RenderTable.jsx";
 import Import from './import/import.jsx';
 
 const tabs = {
