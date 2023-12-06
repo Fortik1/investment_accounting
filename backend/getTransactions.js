@@ -5,7 +5,7 @@ const transactions = (req, res) => {
 
   const { page, limit } = req.query;
 
-  const data = getData('transactions.json', limit, page);
+  const data = getData(limit, page);
 
   res.send(data);
 };
