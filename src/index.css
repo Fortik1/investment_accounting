@@ -21,7 +21,7 @@ html, body {
 .tags, .body {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   min-width: 700px;
@@ -58,6 +58,5 @@ html, body {
 
 .leftContent {
   justify-content: left;
-  width: 30%;
-  max-width: 200px;
+  width: 20%;
 }
