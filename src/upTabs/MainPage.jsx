@@ -1,41 +1,30 @@
-import React, { useState } from 'react';
-import RenderTable from "./Table/RenderTable.jsx";
-import Import from './import/import.jsx';
+import React from 'react';
+import { Link, Outlet, useLocation } from 'react-router-dom'
+
 
 const tabs = {
-  transactions : <RenderTable />,
-  import : <Import />,
-  bonds : '',
+  Transactions : { path: '/transactions' },
+  Import : { path: '/transactions/import'},
+  Bonds : { path: '/bonds' },
 }
 
-const UpTabs = () => {
-  const [key, setKey] = useState('import');
-
-  const setState = (e) => {
-    e.preventDefault();
-
-    setKey(`${e.target.id}`);
-  };
-
+const MainPage = () => {
+  const { pathname } = useLocation();
+  
   return (
     <>
-    <ul className='nav nav-tabs' onClick={setState}>
+    <ul className='nav nav-tabs'>
       {Object.keys(tabs).map((element) =>
         <li className='nav-item' type='submit'>
-          <a className={
-              `nav-link ${key === element ? 'active' : '' }`
-            }
-            href='#'
-            id={element}
+          <Link className={`nav-link ${ pathname === tabs[element].path ? 'active' : '' }`}
+            to={tabs[element].path}
           >
             {element}
-          </a>
+          </Link>
         </li>
        )}
     </ul>
-    <div className='content'>
-      {tabs[key]}
-    </div>
+    <Outlet/>
     </>
   )
 };
@@ -63,4 +52,4 @@ const UpTabs = () => {
       </Tab>
     </Tabs> */}
 
-export default UpTabs;
+export default MainPage;
