@@ -7,7 +7,7 @@ import addFile from "./addFile.js";
 
 export default () => {
   const app = new Express();
-  app.use(bodyParser.json({ limit: '1mb' }));
+  app.use(bodyParser.json({ limit: '5mb' }));
 
   app.use(cors({
     origin: '*'

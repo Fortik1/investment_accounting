@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 import _ from 'lodash';
 import list from './transactions.js';
 
@@ -9,15 +7,19 @@ const getData = (limit, page) => {
 
   const currentLimit = limit && limit > 0 ? limit : 10;
   const dataList = _.chunk(data, currentLimit);
-  const currentPage = Math.min((page && page > 0 ? page : 1), dataList.length - 1);
-  const currentDataPage = dataList[currentPage > 0 ? currentPage : 0];
+  const currentPage = page - 1 > 0 ? page : 1;
+  const currentDataPage = dataList[currentPage - 1 > 0 ? currentPage - 1 : 0];
 
-  return {
+  const d = {
     limit: Number(currentLimit),
-    page: Number(currentPage) || 1,
-    count: dataList.length - 1 || 1,
+    page: Number(currentPage),
+    count: dataList.length,
     data: currentDataPage
   };
+
+  console.log(d);
+
+  return d;
 };
 
 export default getData;

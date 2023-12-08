@@ -1,3 +1,3 @@
-const dataList = { data: [] };
+const dataList = { data: [], transactionsIDList: [] };
 
 export default dataList;
