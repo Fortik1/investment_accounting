@@ -47,12 +47,14 @@ const RenderBody = ({ body }) => {
   )
 };
 
-const RenderTable = () => {
+const RenderTableTransactions = () => {
   const [reqData, setReqData] = useState({ page: 1, limit: 25, });
 
   useEffect(() => {
     const { page, limit } = reqData;
-    const getData = async () => await axios.get(`http://localhost:8080/transactions?page=${page}&limit=${limit}`)
+    //const path = `https://d5dpil1j3vqslj3529om.apigw.yandexcloud.net/transactions?limit=${limit}&page=${page}`;
+    const path = `http://localhost:8080/transactions?page=${page}&limit=${limit}`; // local
+    const getData = async () => await axios.get(path)
     .then(({ data }) => !!data.data && setReqData(filterData(data)));
     getData();
   }, [reqData.page, reqData.limit]);
@@ -78,4 +80,4 @@ const RenderTable = () => {
   );
 };
 
-export default RenderTable;
+export default RenderTableTransactions;

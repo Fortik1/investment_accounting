@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+
+// const path = 'https://d5dpil1j3vqslj3529om.apigw.yandexcloud.net/transactions/import';
+const path = 'http://localhost:8080/addFile'; // local
 
 const Import = () => {
-  const [modalIsOpen, setModalIsOpen] = useState({ show: false, data: { quantityAdd: 0, quantityMissing: 0 }});
-  const [disableButton, setDisabelButton] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState({ show: false, data: { save: 0, not_save: 0 }});
 
   const openModal = (data) => {
     setModalIsOpen({ show: true, data });
@@ -28,7 +30,7 @@ const Import = () => {
       const { name } = file;
       if (regexpTestForName.test(name)) {
         const data = reader.result.split(',')[1];
-        const addFile = async () => await axios.post('http://localhost:8080/addFile', { file: data })
+        const addFile = async () => await axios.post(path, { file: data })
           .then(({ data }) => openModal(data));
         addFile();
       }
@@ -46,8 +48,8 @@ const Import = () => {
         <input className="form-control" type="file" id="formFile"/>
       </form>
       <Modal show={modalIsOpen.show} onHide={closeModal}>
-        <Modal.Body>Добавлено транзакций: {modalIsOpen.data.quantityAdd}</Modal.Body>
-        <Modal.Body>Не добавлено транзакций (дублирование): {modalIsOpen.data.quantityMissing}</Modal.Body>
+        <Modal.Body>Добавлено транзакций: {modalIsOpen.data.save}</Modal.Body>
+        <Modal.Body>Не добавлено транзакций (дублирование): {modalIsOpen.data.not_save}</Modal.Body>
       </Modal>
     </>
   )

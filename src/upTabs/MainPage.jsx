@@ -5,7 +5,7 @@ import { Link, Outlet, useLocation } from 'react-router-dom'
 const tabs = {
   Transactions : { path: '/transactions' },
   Import : { path: '/transactions/import'},
-  Bonds : { path: '/bonds' },
+  Portfolio : { path: '/portfolio' },
 }
 
 const MainPage = () => {
