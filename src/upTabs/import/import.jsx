@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Modal } from "react-bootstrap";
 
-// const path = 'https://d5dpil1j3vqslj3529om.apigw.yandexcloud.net/transactions/import';
-const path = 'http://localhost:8080/addFile'; // local
+const path = 'https://d5dpil1j3vqslj3529om.apigw.yandexcloud.net/api/v1/transactions/import';
+//const path = 'http://localhost:8080/addFile'; // local
 
 const Import = () => {
   const [modalIsOpen, setModalIsOpen] = useState({ show: false, data: { save: 0, not_save: 0 }});
@@ -25,13 +25,19 @@ const Import = () => {
 
     const regexpTestForName = /xls(x)?$/;
     const reader = new FileReader();
+
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    }
   
     reader.onload = () => {
       const { name } = file;
       if (regexpTestForName.test(name)) {
         const data = reader.result.split(',')[1];
-        const addFile = async () => await axios.post(path, { file: data })
-          .then(({ data }) => openModal(data));
+        const addFile = async () => await axios.post(path, { file: data }, config)
+          .then(({ data }) => console.log(data));
         addFile();
       }
     };
