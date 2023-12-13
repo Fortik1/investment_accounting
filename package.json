@@ -34,7 +34,7 @@
     "predeploy": "npm run build"
   },
   "simple-git-hooks": {
-    "prepush": "make deploy"
+    "pre-push": "make startHtml"
   },
   "eslintConfig": {
     "extends": [
