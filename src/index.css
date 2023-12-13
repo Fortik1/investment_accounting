@@ -60,3 +60,11 @@ html, body {
   justify-content: left;
   width: 20%;
 }
+/* portfolio style */
+
+.portfolio-tags div, .portfolio-body div {
+  display: inline-block;
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+}

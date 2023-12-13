@@ -31,13 +31,13 @@ const getButtonPages = (currentPage, pagesTotal) => {
 };
 
 const RenderPagination = ({ reqData, setReqData }) => {
-  const { page, count } = reqData;
+  const { page, maxPage } = reqData;
 
   const prev = () => {if (page > 1) setReqData({ ...reqData, page: page - 1 })};
-  const next = () => {if (page !== count) setReqData({ ...reqData, page: page + 1 })};
+  const next = () => {if (page !== maxPage) setReqData({ ...reqData, page: page + 1 })};
   const setToPage = (i) => setReqData({ ...reqData, page: i }); 
   
-  const buttonPages = getButtonPages(page, count);
+  const buttonPages = getButtonPages(page, maxPage);
 
 
   return ( // TODO

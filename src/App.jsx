@@ -2,8 +2,8 @@ import React from "react";
 import MainPage from './upTabs/MainPage.jsx';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Import from "./upTabs/import/import.jsx";
-import RenderTableTransactions from "./upTabs/Table/RenderTableTransactions.jsx";
-import RenderTablePortfolio from "./upTabs/Table/RenderTablePortfolio.jsx";
+import RenderTableTransactions from "./upTabs/TableTransactions/RenderTransactions.jsx";
+import RenderPortfolio from "./upTabs/TablePortfolio/RenderPortfolio.jsx";
 
 const App = () => {
   return (
@@ -12,7 +12,7 @@ const App = () => {
         <Route path="/" element={ <MainPage/> } >
           <Route path="transactions" element={ <RenderTableTransactions/> } />
           <Route path="transactions/import" element={ <Import/> } />
-          <Route path="*" element={ <RenderTablePortfolio/> }/>
+          <Route path="*" element={ <RenderPortfolio/> }/>
         </Route>
       </Routes>
     </BrowserRouter>
