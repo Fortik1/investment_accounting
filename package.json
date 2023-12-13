@@ -33,6 +33,12 @@
     "deploy": "gh-pages -d build",
     "predeploy": "npm run build"
   },
+<<<<<<< HEAD
+=======
+  "simple-git-hooks": {
+    "pre-push": "make deploy"
+  },
+>>>>>>> parent of b2d727f (check)
   "eslintConfig": {
     "extends": [
       "react-app",
