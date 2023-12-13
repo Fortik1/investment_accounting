@@ -34,7 +34,7 @@
     "predeploy": "npm run build"
   },
   "simple-git-hooks": {
-    "pre-push": "gh-pages -d build"
+    "pre-push": "make deploy"
   },
   "eslintConfig": {
     "extends": [
