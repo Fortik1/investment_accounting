@@ -22,7 +22,6 @@
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.20.1",
     "react-scripts": "^3.0.1",
-    "simple-git-hooks": "^2.9.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -31,7 +30,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "gh-pages -d build",
-    "predeploy": "npm run build"
+    "predeploy": "npm run build",
+    "pre-push": "npm run deploy"
   },
   "eslintConfig": {
     "extends": [
