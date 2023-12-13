@@ -32,6 +32,9 @@
     "deploy": "gh-pages -d build",
     "predeploy": "npm run build"
   },
+  "simple-git-hooks": {
+    "pre-push": "npm run deploy"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
