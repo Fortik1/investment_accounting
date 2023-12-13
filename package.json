@@ -33,7 +33,6 @@
     "deploy": "gh-pages -d build",
     "predeploy": "npm run build"
   },
-
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -54,5 +53,16 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
+  },
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fortik1/investment_accounting.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fortik1/investment_accounting/issues"
   }
 }
