@@ -29,16 +29,8 @@
     "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "deploy": "gh-pages -d build",
-    "predeploy": "npm run build"
+    "eject": "react-scripts eject"
   },
-<<<<<<< HEAD
-=======
-  "simple-git-hooks": {
-    "pre-push": "make deploy"
-  },
->>>>>>> parent of b2d727f (check)
   "eslintConfig": {
     "extends": [
       "react-app",
