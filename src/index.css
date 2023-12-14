@@ -28,6 +28,7 @@ html, body {
 }
 
 .table {
+  width: 100%;
   padding: 0 20px;
   height: 650px;
   overflow: auto;
@@ -38,6 +39,7 @@ html, body {
 }
 
 .tags {
+  display: inline-block;
   padding-bottom: 10px;
   position: sticky;
   top: 0;
@@ -62,9 +64,23 @@ html, body {
 }
 /* portfolio style */
 
-.portfolio-tags div, .portfolio-body div {
-  display: inline-block;
-  width: 100px;
+.portfolio-tags, .portfolio-body {
   white-space: nowrap;
-  overflow: hidden;
+  width: 100%;
+}
+
+.portfolio-table {
+  white-space: nowrap;
+  overflow: auto;
+}
+
+.portfolio-tags {
+  position: sticky;
+  top: 0;
+}
+
+.portfolio-tags div, .portfolio-body div {
+  display: inline-block; 
+  width: 130px;
+  white-space: nowrap;
 }

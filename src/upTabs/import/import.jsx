@@ -24,25 +24,37 @@ const Import = () => {
     if (!file) return;
 
     const regexpTestForName = /xls(x)?$/;
-    const reader = new FileReader();
+    //const reader = new FileReader();
 
     const config = {
       headers: {
         'Content-Type': 'multipart/form-data',
       }
     }
+
+    const { name } = file;
+
+    if (regexpTestForName.test(name)) {
+      const formData = new FormData();
+      formData.append('file', formData);
+
+      (function () {
+        axios.post(path, file, config)
+          .then((d) => console.log(d));
+      }());
+    }
   
-    reader.onload = () => {
-      const { name } = file;
-      if (regexpTestForName.test(name)) {
-        const data = reader.result.split(',')[1];
-        const addFile = async () => await axios.post(path, { file: data }, config)
-          .then(({ data }) => console.log(data));
-        addFile();
-      }
-    };
+    // reader.onload = () => {
+    //   const { name } = file;
+    //   if (regexpTestForName.test(name)) {
+    //     const data = reader.result.split(',')[1];
+    //     const addFile = async () => await axios.post(path, { file: data }, config)
+    //       .then(({ data }) => console.log(data));
+    //     addFile();
+    //   }
+    // };
   
-    reader.readAsDataURL(file);
+    // reader.readAsDataURL(file);
   };
 
   console.log(modalIsOpen);

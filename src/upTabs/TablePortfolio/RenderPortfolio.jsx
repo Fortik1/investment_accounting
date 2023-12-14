@@ -45,7 +45,7 @@ const RenderPortfolio = () => {
   return (
     <>
       { !!reqData && 
-        <div className="table">
+        <div className="portfolio-table">
           <RenderTags tags={reqData[0]} />
           <RenderBody body={reqData} />
         </div>
