@@ -6,8 +6,8 @@ const RenderTags = ({ tags }) => {
   return (
     <>
       <div className="portfolio-tags">
-        {Object.keys(tags).map((key) => 
-          <div key={uniqueId()}>
+        {Object.keys(tags).map((key, index) => 
+          <div key={uniqueId()} className={`col-${index}`}>
             {key}
           </div>
         )}
@@ -21,8 +21,8 @@ const RenderBody = ({ body }) => {
     <>
       {body.map((element) => 
         <div className="portfolio-body" key={uniqueId()}>
-          {Object.entries(element).map(([key, value]) => 
-            <div key={uniqueId()}>{value}</div>
+          {Object.entries(element).map(([key, value], index) => 
+            <div key={uniqueId()} className={`col-${index}`}>{value}</div>
           )}
         </div>
       )}
