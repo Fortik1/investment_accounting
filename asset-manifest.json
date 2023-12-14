@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/investment_accounting/static/css/main.73a48595.chunk.css",
-    "main.js": "/investment_accounting/static/js/main.3889155c.chunk.js",
-    "main.js.map": "/investment_accounting/static/js/main.3889155c.chunk.js.map",
+    "main.css": "/investment_accounting/static/css/main.2a301ee5.chunk.css",
+    "main.js": "/investment_accounting/static/js/main.aeb24b7a.chunk.js",
+    "main.js.map": "/investment_accounting/static/js/main.aeb24b7a.chunk.js.map",
     "runtime~main.js": "/investment_accounting/static/js/runtime~main.ea7fa268.js",
     "runtime~main.js.map": "/investment_accounting/static/js/runtime~main.ea7fa268.js.map",
     "static/css/2.75bc9036.chunk.css": "/investment_accounting/static/css/2.75bc9036.chunk.css",
     "static/js/2.87155011.chunk.js": "/investment_accounting/static/js/2.87155011.chunk.js",
     "static/js/2.87155011.chunk.js.map": "/investment_accounting/static/js/2.87155011.chunk.js.map",
     "index.html": "/investment_accounting/index.html",
-    "precache-manifest.5e4f697dea479860b0441397d6b98198.js": "/investment_accounting/precache-manifest.5e4f697dea479860b0441397d6b98198.js",
+    "precache-manifest.eacd2aeeb30c3666f0d74cef3d4a0c4d.js": "/investment_accounting/precache-manifest.eacd2aeeb30c3666f0d74cef3d4a0c4d.js",
     "service-worker.js": "/investment_accounting/service-worker.js",
     "static/css/2.75bc9036.chunk.css.map": "/investment_accounting/static/css/2.75bc9036.chunk.css.map",
-    "static/css/main.73a48595.chunk.css.map": "/investment_accounting/static/css/main.73a48595.chunk.css.map"
+    "static/css/main.2a301ee5.chunk.css.map": "/investment_accounting/static/css/main.2a301ee5.chunk.css.map"
   }
 }
