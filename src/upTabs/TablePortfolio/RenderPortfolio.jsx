@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { pick, uniqueId } from "lodash";
+import { normalizDate } from "../TableTransactions/filterData";
 
 const widthStyle = {
   "accruedCouponEod": 150,
   "ccy": 50,
   "count": 100,
-  "couponPaymentFrequency": 170,
+  "couponPaymentFrequency": 90,
   "dateDaily": 100,
   "duration": 100,
   "isin": 150,
   "maturityDate": 100,
-  "name": 100,
-  "priceAvg": 50,
-  "priceDaily": 50,
+  "name": 120,
+  "priceAvg": 90,
+  "priceDaily": 90,
   "rating": 50,
   "type": 50,
-  "yieldAvg": 50,
-  "yieldDaily": 50,
+  "yieldAvg": 90,
+  "yieldDaily": 150,
 };
 
 // accruedCouponEod (нужно умножить на count) он в % -> ((accruedCouponEod / 100) * principal) * count <- сумма нкд
@@ -55,12 +56,14 @@ const principal = 1000;
 const filterData = (data, currentNames) => data.map((element) => {
   const newData = pick(element, currentNames);
   const nkdName = 'accruedCouponEod';
+
   newData[nkdName] = element[nkdName] / 100 * principal * element.count || null;
+
   return newData;
 });
 
 const filterTags = (tags, correctName) => Object.keys(tags)
-  .reduce((acc, oldName) => acc = [...acc, { oldName, newName: correctName[oldName] }] ,[]);
+  .reduce((acc, oldName) => acc = [...acc, { oldName, newName: correctName[oldName] }] ,[]); // 0.04ms
 
 const RenderPortfolio = () => {
   const defaultName = ['name', 'priceAvg', 'priceDaily', 'yieldAvg', 'yieldDaily', 'couponPaymentFrequency', 'type', 'accruedCouponEod', 'count'];
@@ -91,14 +94,17 @@ const RenderPortfolio = () => {
 
     (function async () { 
       axios.get(path)
-        .then(({ data }) => setReqData({ 
+        .then(({ data }) => {
+        setReqData({ // max 3.22 ms
           ...reqData, 
-          data: filterData(data, currentNames),
-          dateDaily: data[0].dateDaily 
-        }))
+          data: filterData(data, currentNames), 
+          dateDaily: normalizDate(data[0].dateDaily)
+        })
+      })
     }());
 
   }, []);
+
 
   const getLength = reqData.data && Object.keys(reqData.data[0]).reduce((acc, e) => acc + widthStyle[e] + 20, 0);
 

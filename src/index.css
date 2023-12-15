@@ -83,6 +83,9 @@ html, body {
 
 .portfolio-tags div, .portfolio-body div {
   margin-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
   display: inline-block; 
   white-space: nowrap;
   overflow: hidden;
