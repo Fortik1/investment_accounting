@@ -53,8 +53,7 @@ const filterData = (reqData) => {
     'summa' : 'Total amount'
   }
 
-  const correctNameArray = Object.keys(correctName);
-
+  const correctNameArray = Object.keys(correctName)
   const newDataList = data
     .map(el => _.pick(el, correctNameArray))
     .reduce((acc, oldElement) => {
