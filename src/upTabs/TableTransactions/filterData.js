@@ -5,7 +5,7 @@ export const normalizDate = (date) => {
   const mounth = date.slice(4, 6);
   const day = date.slice(6, 8);
 
-  return `${year}:${mounth}:${day}`;
+  return `${day}.${mounth}.${year}`;
 }
 
 const filterData = (reqData) => {

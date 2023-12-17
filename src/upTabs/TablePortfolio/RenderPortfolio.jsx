@@ -14,7 +14,7 @@ const widthStyle = {
   "maturityDate": 100,
   "name": 120,
   "priceAvg": 90,
-  "priceDaily": 90,
+  "priceDaily": 150,
   "rating": 50,
   "type": 50,
   "yieldAvg": 90,
@@ -28,7 +28,7 @@ const RenderTags = ({ tags, length }) => {
     <>
       <div className="portfolio-tags" style={{ width: length + "px"}}>
         {tags.map(({ oldName, newName }, index) =>
-          <div key={uniqueId()} style={{ width: widthStyle[oldName] + "px"}} >
+          <div key={uniqueId()} style={{ width: widthStyle[oldName] + "px" }} >
             {newName}
           </div>
         )}
@@ -43,7 +43,10 @@ const RenderBody = ({ body, length }) => {
       {body.map((element) =>
         <div className="portfolio-body" key={uniqueId()} style={{ width: length + "px" }}>
           {Object.entries(element).map(([key, value], index) =>
-            <div key={uniqueId()} style={{ width: widthStyle[key] + "px" }}>{value}</div>
+            <div key={uniqueId()} style={{ 
+              width: widthStyle[key] + "px",
+              textAlign: new RegExp(/\d,\d/).test(value) ? "right" : null
+            }}>{value}</div>
           )}
         </div>
       )}
@@ -58,7 +61,15 @@ const filterData = (data, currentNames) => data.map((element) => {
   const nkdName = 'accruedCouponEod';
 
   newData[nkdName] = element[nkdName] / 100 * principal * element.count || null;
+  newData['yieldDaily'] = newData['yieldDaily'] * 100 || null;
+  newData['yieldAvg'] = newData['yieldAvg'] * 100 || null;
 
+  Object.keys(element).forEach((key) => {
+    if (typeof newData[key] === 'number') {
+      newData[key] = newData[key].toFixed(2).replace('.', ',');
+    }
+  });
+  
   return newData;
 });
 
@@ -74,7 +85,7 @@ const RenderPortfolio = () => {
   const correctName = {
     'name': "Name", 
     'priceAvg': "Price (avg)",
-    'priceDaily': "Price Daily", 
+    'priceDaily': `Price ${reqData.dateDaily}`, 
     'yieldAvg': "Yield Avg", 
     'yieldDaily': `Yield ${reqData.dateDaily}`,
     'couponPaymentFrequency': "Coupons",
