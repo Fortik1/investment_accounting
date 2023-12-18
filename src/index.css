@@ -30,7 +30,7 @@ html, body {
   white-space: nowrap;
   width: 100%;
   padding: 0 20px;
-  height: 650px;
+  height: 100%;
   overflow: auto;
 }
 
