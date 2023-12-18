@@ -84,7 +84,7 @@ const RenderPortfolio = () => {
 
   const correctName = {
     'name': "Name", 
-    'priceAvg': "Price (avg)",
+    'priceAvg': "Price Avg",
     'priceDaily': `Price ${reqData.dateDaily}`, 
     'yieldAvg': "Yield Avg", 
     'yieldDaily': `Yield ${reqData.dateDaily}`,
