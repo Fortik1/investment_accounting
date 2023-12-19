@@ -124,7 +124,9 @@ const RenderPortfolio = () => {
       {!!reqData.data &&
         <div className="table">
           <RenderTags tags={filterTags(reqData.data[0], correctName)} length={getLength} />
-          <RenderBody body={reqData.data} length={getLength} />
+          <div className="table-body">
+             <RenderBody body={reqData.data} length={getLength} />
+          </div>
         </div>
       }
     </>
