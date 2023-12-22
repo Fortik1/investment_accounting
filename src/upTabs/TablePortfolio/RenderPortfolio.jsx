@@ -2,6 +2,34 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { pick, uniqueId } from "lodash";
 import { normalizDate } from "../TableTransactions/filterData";
+import BigNumber from "bignumber.js";
+import { Nav } from "react-bootstrap";
+import FullInformationOnName from "./FullInformationOnName.js";
+
+const replacePoint = (number) => {
+  if (number === "NaN") {
+    return null;
+  } else {
+    return number;
+  }
+};
+
+const getSumAndCountByName = (elements, name) => elements.reduce((acc, element) => {
+    if (element[name]) {
+      const sumBigNumber = new BigNumber(acc.sum);
+      acc.sum = sumBigNumber.plus(Number(element[name].replace(',', '.'))).toString();
+      acc.count += 1;
+    }
+
+    return acc;
+  }, { sum: 0, count: 0 });
+
+const getAvgFromSumFunction = ({ sum, count }) => {
+  const bigSum = new BigNumber(sum);
+  return bigSum.div(count).toFixed(2);
+};
+
+const nameForInfo = ['accruedCouponEod', 'yieldAvg', 'yieldDaily', 'currentInvestment'];
 
 const widthStyle = {
   "accruedCouponEod": 150,
@@ -16,18 +44,62 @@ const widthStyle = {
   "priceAvg": 90,
   "priceDaily": 150,
   "rating": 50,
-  "type": 50,
+  "type": 70,
   "yieldAvg": 90,
   "yieldDaily": 150,
+  "currentInvestment": 100
 };
 
+const getInfoForLine = (data) => {
+  const sumsFunctions = {
+    accruedCouponEod: getSumAndCountByName(data, 'accruedCouponEod').sum,
+    yieldAvg: getAvgFromSumFunction(getSumAndCountByName(data, 'yieldAvg')),
+    yieldDaily: getAvgFromSumFunction(getSumAndCountByName(data, 'yieldDaily')),
+    currentInvestment: getSumAndCountByName(data, 'currentInvestment').sum
+  };
+
+  return Object.keys(data[0]).map((key) => nameForInfo.includes(key) ? 
+    { 
+      value: replacePoint(sumsFunctions[key]), 
+      styleWidth: widthStyle[key]
+    } 
+    : { value: null, styleWidth: widthStyle[key]});
+};
+
+
 // accruedCouponEod (нужно умножить на count) он в % -> ((accruedCouponEod / 100) * principal) * count <- сумма нкд
+
+const RenderActiveTypeButtun = ({ activeType, setActiveType }) => {
+  const typeList = ['Bond', 'Stock', 'All'];
+
+  return (
+    <Nav variant="underline" defaultActiveKey={activeType}>
+      {typeList.map((typeName) => 
+        <Nav.Item>
+          <Nav.Link eventKey={typeName} onClick={() => setActiveType(typeName)}>{typeName}</Nav.Link>
+        </Nav.Item>
+      )}
+    </Nav>
+  )
+};
+
+const RenderInfoLine = ({ info, length }) => {
+  return (
+    <div className="portfolio-tags-info" style={{ width: length + "px" }}>
+      {info.map(({ value, styleWidth }) => 
+        <div key={uniqueId()} style={{ width: styleWidth + "px", textAlign: "right" }}>
+          {value}
+        </div>  
+      )}
+    </div>
+  )
+};
 
 const RenderTags = ({ tags, length }) => {
   return (
     <>
       <div className="portfolio-tags" style={{ width: length + "px"}}>
-        {tags.map(({ oldName, newName }, index) =>
+        {tags.map(({ oldName, newName }) =>
           <div key={uniqueId()} style={{ width: widthStyle[oldName] + "px" }} >
             {newName}
           </div>
@@ -42,7 +114,7 @@ const RenderBody = ({ body, length }) => {
     <>
       {body.map((element) =>
         <div className="portfolio-body" key={uniqueId()} style={{ width: length + "px" }}>
-          {Object.entries(element).map(([key, value], index) =>
+          {Object.entries(element).map(([key, value]) =>
             <div key={uniqueId()} style={{ 
               width: widthStyle[key] + "px",
               textAlign: new RegExp(/\d,\d/).test(value) ? "right" : null
@@ -73,14 +145,18 @@ const filterData = (data, currentNames) => data.map((element) => {
   return newData;
 });
 
-const filterTags = (tags, correctName) => Object.keys(tags)
-  .reduce((acc, oldName) => acc = [...acc, { oldName, newName: correctName[oldName] }] ,[]); // 0.04ms
+const filterTags = (tags, correctName) => {
+  return tags
+    .reduce((acc, oldName) => acc = [...acc, { oldName, newName: correctName[oldName] }] ,[]);
+}; // 0.04ms
 
 const RenderPortfolio = () => {
-  const defaultName = ['name', 'priceAvg', 'priceDaily', 'yieldAvg', 'yieldDaily', 'couponPaymentFrequency', 'type', 'accruedCouponEod', 'count'];
+  const defaultName = ['name', 'priceAvg', 'priceDaily', 'yieldAvg', 'yieldDaily', 'couponPaymentFrequency', 'type', 'accruedCouponEod', 'count', 'currentInvestment'];
 
   const [reqData, setReqData] = useState({ dateDaily: '-' });
   const [currentNames, setCurrentNames] = useState(defaultName);
+  const [activeType, setActiveType] = useState('All');
+  const testClass = new FullInformationOnName('-');
 
   const correctName = {
     'name': "Name", 
@@ -91,7 +167,8 @@ const RenderPortfolio = () => {
     'couponPaymentFrequency': "Coupons",
     'type': "Type",
     'accruedCouponEod': "NKD", // по формуле
-    'count': "Count", // выводить досюда 
+    'count': "Count",  
+    'currentInvestment': "CI", // выводить досюда
     'rating': "Rating",
     'ccy': "Ccy",
     'dateDaily': "Daily Date",
@@ -106,28 +183,37 @@ const RenderPortfolio = () => {
     (function async () { 
       axios.get(path)
         .then(({ data }) => {
+        testClass.addData(data);
         setReqData({ // max 3.22 ms
           ...reqData, 
-          data: filterData(data, currentNames), 
+          data: {
+            all: filterData(data, currentNames),
+            bond: filterData(data.filter(({ type }) => type === 'bond'), currentNames),
+            stock: filterData(data.filter(({ type }) => type === 'stock'), currentNames)
+          }, 
           dateDaily: normalizDate(data[0].dateDaily)
         })
+        console.log(testClass.getData('bond'))
       })
     }());
 
   }, []);
 
-
-  const getLength = reqData.data && Object.keys(reqData.data[0]).reduce((acc, e) => acc + widthStyle[e] + 20, 0);
-
+  const getLength = reqData.data && Object.keys(reqData.data.all[0]).reduce((acc, e) => acc + widthStyle[e] + 20, 0);
+  
   return (
     <>
       {!!reqData.data &&
+        <>
+        <RenderActiveTypeButtun activeType={activeType} setActiveType={setActiveType}/>
         <div className="table">
-          <RenderTags tags={filterTags(reqData.data[0], correctName)} length={getLength} />
+          <RenderTags tags={ filterTags(currentNames, correctName) } length={ getLength } />
+          <RenderInfoLine info={ getInfoForLine(reqData.data[activeType.toLowerCase()]) } length={ getLength } />
           <div className="table-body">
-             <RenderBody body={reqData.data} length={getLength} />
+             <RenderBody body={ reqData.data[activeType.toLowerCase()] } length={ getLength } />
           </div>
         </div>
+        </>
       }
     </>
   )

@@ -30,7 +30,7 @@ html, body {
   white-space: nowrap;
   width: 100%;
   padding: 0 20px;
-  height: 100%;
+  height: 750px;
   overflow: auto;
 }
 
@@ -70,8 +70,23 @@ html, body {
   background: #e9e9e9;
 } */
 
-.portfolio-tags div {
+.portfolio-tags div, .portfolio-tags-info div {
   border-bottom: 1px solid #ccc;
+}
+
+.portfolio-tags-info div {
+  display: inline-block;
+  margin-right: 20px;
+  vertical-align: bottom;
+  padding-left: 10px;
+  padding-right: 8px;
+}
+
+.portfolio-tags-info {
+  height: auto;
+  position: sticky;
+  top: 51px;
+  background: white;
 }
 
 .portfolio-tags div, .portfolio-body div {
@@ -91,6 +106,10 @@ html, body {
 
 .portfolio-table .column-1 {
   width: 100px;
+}
+
+.nav.nav-underline {
+  padding-left: 20px;
 }
 
 .nav-tabs {
