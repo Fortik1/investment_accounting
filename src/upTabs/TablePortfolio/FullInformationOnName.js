@@ -1,7 +1,24 @@
 import { pick } from "lodash";
+import BigNumber from "bignumber.js";
+
+const getSumAndCountByName = (elements, name) => elements.reduce((acc, element) => {
+  if (element[name]) {
+    const sumBigNumber = new BigNumber(acc.sum);
+    acc.sum = sumBigNumber.plus(Number(element[name].replace(',', '.'))).toString();
+    acc.count += 1;
+  }
+
+  return acc;
+}, { sum: 0, count: 0 });
+
+const getAvgFromSumFunction = ({ sum, count }) => {
+const bigSum = new BigNumber(sum);
+return bigSum.div(count).toFixed(2);
+};
 
 class FullInformationOnName {
   constructor(date) {
+    this.date = date;
     this.informations = {
       "name": {
         correctName: "Name",
@@ -12,7 +29,7 @@ class FullInformationOnName {
         width: 90
       },
       "priceDaily": {
-        correctName: `Price ${date}`,
+        correctName: `Price ${this.date}`,
         width: 150
       },
       "yieldAvg": {
@@ -20,7 +37,7 @@ class FullInformationOnName {
         width: 90,
       },
       "yieldDaily": {
-        correctName: `Yield ${date}`,
+        correctName: `Yield ${this.date}`,
         width: 150
       },
       "couponPaymentFrequency": {
@@ -31,7 +48,7 @@ class FullInformationOnName {
         correctName: "Type",
         width: 70
       },
-      "accruendCouponEod": {
+      "accruedCouponEod": {
         correctName: "NKD",
         width: 150
       },
@@ -39,7 +56,7 @@ class FullInformationOnName {
         correctName: "Count",
         width: 100
       },
-      "currentInverstment": {
+      "currentInvestment": {
         correctName: "CI",
         width: 100
       },
@@ -81,7 +98,17 @@ class FullInformationOnName {
     this.principal = 1000;
   }
 
+  setDate(date) {
+    this.date = date;
+    return this;
+  }
+
   getData(type) {
+    type = type.toLowerCase();
+    if (!this.informations.data) {
+      return null;
+    };
+
     return this.informations.data[type].map((element) => {
       const filterData = pick(element, this.informations.activeType);
       const nkdName = 'accruedCouponEod';
@@ -98,6 +125,50 @@ class FullInformationOnName {
 
       return filterData;
     });
+  }
+
+  getLength() {
+    return Object.keys(pick(this.informations.data.all[0], this.informations.activeType))
+      .reduce((sumWidth, name) => sumWidth + this.informations[name].width + 20, 0);
+  }
+
+  getTags() {
+    return this.informations.activeType
+      .reduce((tags, tagName) => tags = [...tags, { oldName: tagName, newName: this.informations[tagName].correctName }], []);
+  }
+
+  getInfoForLine(type) {
+    type = type.toLowerCase();
+    const data = this.getData(type);
+    const nameForInfo = ['accruedCouponEod', 'yieldAvg', 'yieldDaily', 'currentInvestment'];
+    const sumsFunctions = {
+      accruedCouponEod: getSumAndCountByName(data, 'accruedCouponEod').sum,
+      yieldAvg: getAvgFromSumFunction(getSumAndCountByName(data, 'yieldAvg')),
+      yieldDaily: getAvgFromSumFunction(getSumAndCountByName(data, 'yieldDaily')),
+      currentInvestment: getSumAndCountByName(data, 'currentInvestment').sum
+    }
+
+    return Object.keys(pick(data[0], this.informations.activeType)).map((name) => {
+      const styleWidth = this.informations[name].width;
+      if (nameForInfo.includes(name)) {
+        return {
+          value: sumsFunctions[name] === 'NaN' ? null : sumsFunctions[name],
+          styleWidth
+        } 
+      } else {
+        return {
+          value: null,
+          styleWidth
+        }
+      }
+    });
+    // return Object.keys(data[0]).map((key) => nameForInfo.includes(key) ?
+    //   {
+    //     value: sumsFunctions[key] === 'NaN' ? null : sumsFunctions[key],
+    //     styleWidth: this.informations[key].width
+    //   }
+    //   : { value: null, styleWidth: this.informations[key].width }
+    // )
   }
 }
 
