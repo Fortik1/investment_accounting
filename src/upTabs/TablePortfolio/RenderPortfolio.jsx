@@ -16,6 +16,7 @@ const replacePoint = (number) => {
 
 const getSumAndCountByName = (elements, name) => elements.reduce((acc, element) => {
     if (element[name]) {
+      console.log(element, 'out')
       const sumBigNumber = new BigNumber(acc.sum);
       acc.sum = sumBigNumber.plus(Number(element[name].replace(',', '.'))).toString();
       acc.count += 1;
@@ -53,9 +54,9 @@ const widthStyle = {
 const getInfoForLine = (data) => {
   const sumsFunctions = {
     accruedCouponEod: getSumAndCountByName(data, 'accruedCouponEod').sum,
-    yieldAvg: getAvgFromSumFunction(getSumAndCountByName(data, 'yieldAvg')),
-    yieldDaily: getAvgFromSumFunction(getSumAndCountByName(data, 'yieldDaily')),
-    currentInvestment: getSumAndCountByName(data, 'currentInvestment').sum
+    // yieldAvg: getAvgFromSumFunction(getSumAndCountByName(data, 'yieldAvg')),
+    // yieldDaily: getAvgFromSumFunction(getSumAndCountByName(data, 'yieldDaily')),
+    // currentInvestment: getSumAndCountByName(data, 'currentInvestment').sum
   };
 
   return Object.keys(data[0]).map((key) => nameForInfo.includes(key) ? 
@@ -88,7 +89,7 @@ const RenderInfoLine = ({ info, length }) => {
     <div className="portfolio-tags-info" style={{ width: length + "px" }}>
       {info.map(({ value, styleWidth }) => 
         <div key={uniqueId()} style={{ width: styleWidth + "px", textAlign: "right" }}>
-          {value}
+          { value }
         </div>  
       )}
     </div>
@@ -153,29 +154,31 @@ const filterTags = (tags, correctName) => {
 const RenderPortfolio = () => {
   const defaultName = ['name', 'priceAvg', 'priceDaily', 'yieldAvg', 'yieldDaily', 'couponPaymentFrequency', 'type', 'accruedCouponEod', 'count', 'currentInvestment'];
 
-  const [reqData, setReqData] = useState({ dateDaily: '-' });
-  const [currentNames, setCurrentNames] = useState(defaultName);
+  // const [reqData, setReqData] = useState({ dateDaily: '-' });
+  // const [currentNames, setCurrentNames] = useState(defaultName);
+  const [loadState, setLoadStete] = useState('load');
   const [activeType, setActiveType] = useState('All');
-  const testClass = new FullInformationOnName('-');
 
-  const correctName = {
-    'name': "Name", 
-    'priceAvg': "Price Avg",
-    'priceDaily': `Price ${reqData.dateDaily}`, 
-    'yieldAvg': "Yield Avg", 
-    'yieldDaily': `Yield ${reqData.dateDaily}`,
-    'couponPaymentFrequency': "Coupons",
-    'type': "Type",
-    'accruedCouponEod': "NKD", // по формуле
-    'count': "Count",  
-    'currentInvestment': "CI", // выводить досюда
-    'rating': "Rating",
-    'ccy': "Ccy",
-    'dateDaily': "Daily Date",
-    'duration': "Duration",
-    'isin': "ISIN",
-    'maturityDate': "Maturity Date",
-  };
+  const [testClass, setTestClass] = useState(new FullInformationOnName('-'));
+
+  // const correctName = {
+  //   'name': "Name", 
+  //   'priceAvg': "Price Avg",
+  //   'priceDaily': `Price ${reqData.dateDaily}`, 
+  //   'yieldAvg': "Yield Avg", 
+  //   'yieldDaily': `Yield ${reqData.dateDaily}`,
+  //   'couponPaymentFrequency': "Coupons",
+  //   'type': "Type",
+  //   'accruedCouponEod': "NKD", // по формуле
+  //   'count': "Count",  
+  //   'currentInvestment': "CI", // выводить досюда
+  //   'rating': "Rating",
+  //   'ccy': "Ccy",
+  //   'dateDaily': "Daily Date",
+  //   'duration': "Duration",
+  //   'isin': "ISIN",
+  //   'maturityDate': "Maturity Date",
+  // };
 
   useEffect(() => {
     const path = 'https://d5dpil1j3vqslj3529om.apigw.yandexcloud.net/api/v1/portfolio';
@@ -183,34 +186,33 @@ const RenderPortfolio = () => {
     (function async () { 
       axios.get(path)
         .then(({ data }) => {
-        testClass.addData(data);
-        setReqData({ // max 3.22 ms
-          ...reqData, 
-          data: {
-            all: filterData(data, currentNames),
-            bond: filterData(data.filter(({ type }) => type === 'bond'), currentNames),
-            stock: filterData(data.filter(({ type }) => type === 'stock'), currentNames)
-          }, 
-          dateDaily: normalizDate(data[0].dateDaily)
-        })
-        console.log(testClass.getData('bond'))
-      })
+        const newStateClass = new FullInformationOnName(normalizDate(data[0].dateDaily));
+        newStateClass.addData(data);
+        setTestClass(newStateClass);
+        setLoadStete('loaded')
+        // setReqData({ // max 3.22 ms
+        //   ...reqData, 
+        //   data: {
+        //     all: filterData (data, currentNames),
+        //     bond: filterData(data.filter(({ type }) => type === 'bond'), currentNames),
+        //     stock: filterData(data.filter(({ type }) => type === 'stock'), currentNames)
+        //   }, 
+        //   dateDaily: normalizDate(data[0].dateDaily)
+        // })
+      });
     }());
-
   }, []);
 
-  const getLength = reqData.data && Object.keys(reqData.data.all[0]).reduce((acc, e) => acc + widthStyle[e] + 20, 0);
-  
   return (
     <>
-      {!!reqData.data &&
+      {loadState !== 'load' &&
         <>
         <RenderActiveTypeButtun activeType={activeType} setActiveType={setActiveType}/>
         <div className="table">
-          <RenderTags tags={ filterTags(currentNames, correctName) } length={ getLength } />
-          <RenderInfoLine info={ getInfoForLine(reqData.data[activeType.toLowerCase()]) } length={ getLength } />
+          <RenderTags tags={ testClass.getTags() } length={ testClass.getLength() } />
+          <RenderInfoLine info={ testClass.getInfoForLine(activeType) } length={ testClass.getLength() } />
           <div className="table-body">
-             <RenderBody body={ reqData.data[activeType.toLowerCase()] } length={ getLength } />
+             <RenderBody body={ testClass.getData(activeType) } length={ testClass.getLength() } />
           </div>
         </div>
         </>
