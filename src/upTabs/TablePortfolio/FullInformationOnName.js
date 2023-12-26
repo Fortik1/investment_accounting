@@ -103,6 +103,13 @@ class FullInformationOnName {
     return this;
   }
 
+  getStyleByActiveName() {
+    return this.informations.activeType.reduce((styleWidth, name) => {
+      const { width } = this.informations[name];
+      return { ...styleWidth, [name]: width };
+    }, {})
+  }
+
   getData(type) {
     type = type.toLowerCase();
     if (!this.informations.data) {
@@ -134,7 +141,10 @@ class FullInformationOnName {
 
   getTags() {
     return this.informations.activeType
-      .reduce((tags, tagName) => tags = [...tags, { oldName: tagName, newName: this.informations[tagName].correctName }], []);
+      .reduce((tags, tagName) => {
+        tags.push(this.informations[tagName]);
+        return tags;
+      }, []);
   }
 
   getInfoForLine(type) {
