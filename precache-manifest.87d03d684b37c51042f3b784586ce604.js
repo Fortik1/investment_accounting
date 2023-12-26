@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "87717204431e46acf88ab0fe3dd8438a",
+    "revision": "0f977b1021288186b58bedda368580e1",
     "url": "/investment_accounting/index.html"
   },
   {
@@ -8,16 +8,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/investment_accounting/static/css/2.75bc9036.chunk.css"
   },
   {
-    "revision": "69c02c733d61664244d7",
-    "url": "/investment_accounting/static/css/main.6347ebcb.chunk.css"
+    "revision": "0bc7d395bafea7e7044c",
+    "url": "/investment_accounting/static/css/main.64198993.chunk.css"
   },
   {
     "revision": "30a1110b5e71f05ad7cb",
     "url": "/investment_accounting/static/js/2.c4368f07.chunk.js"
   },
   {
-    "revision": "69c02c733d61664244d7",
-    "url": "/investment_accounting/static/js/main.5c184e22.chunk.js"
+    "revision": "0bc7d395bafea7e7044c",
+    "url": "/investment_accounting/static/js/main.744990ed.chunk.js"
   },
   {
     "revision": "ca07c6f29de0ddcc1910",
