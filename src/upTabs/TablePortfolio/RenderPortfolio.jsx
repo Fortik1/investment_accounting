@@ -63,13 +63,17 @@ const RenderBody = ({ body, length, widthStyle }) => {
   )
 };
 
-
-
+const RenderSpinner = () => {
+  return (
+    <svg className="spinner" viewBox="0 0 50 50">
+      <circle className="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"/>
+    </svg>
+  )
+};
 
 const RenderPortfolio = () => {
   const [loadState, setLoadStete] = useState('load');
   const [activeType, setActiveType] = useState('All');
-
   const [testClass, setTestClass] = useState(new FullInformationOnName('-'));
 
   useEffect(() => {
@@ -86,22 +90,22 @@ const RenderPortfolio = () => {
     }());
   }, []);
 
-  return (
-    <>
-      {loadState !== 'load' &&
-        <>
-        <RenderActiveTypeButtun activeType={activeType} setActiveType={setActiveType}/>
+  if (loadState === 'load') {
+    return <RenderSpinner />
+  } else {
+    return (
+      <>
+        <RenderActiveTypeButtun activeType={activeType} setActiveType={setActiveType} />
         <div className="table">
-          <RenderTags tags={ testClass.getTags() } length={ testClass.getLength() } />
-          <RenderInfoLine info={ testClass.getInfoForLine(activeType) } length={ testClass.getLength() } />
+          <RenderTags tags={testClass.getTags()} length={testClass.getLength()} />
+          <RenderInfoLine info={testClass.getInfoForLine(activeType)} length={testClass.getLength()} />
           <div className="table-body">
-             <RenderBody body={ testClass.getData(activeType) } length={ testClass.getLength() } widthStyle={ testClass.getStyleByActiveName() } />
+            <RenderBody body={testClass.getData(activeType)} length={testClass.getLength()} widthStyle={testClass.getStyleByActiveName()} />
           </div>
         </div>
-        </>
-      }
-    </>
-  )
+      </>
+    )
+  }
 };
 
 export default RenderPortfolio;
