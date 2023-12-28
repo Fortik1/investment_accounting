@@ -4,6 +4,7 @@ import { uniqueId } from "lodash";
 import RenderPagination from "../RenderPagination.jsx"
 import RenderLimitList from "../RenderLimitList.jsx";
 import filterData from "./filterData.js";
+import RenderSpinner from "../RenderSpinner.jsx";
 
 const getStyle = (key) => {
   switch (key.toLowerCase()) {
@@ -48,21 +49,28 @@ const RenderBody = ({ body }) => {
 };
 
 const RenderTableTransactions = () => {
+  const [loadState, setLoadState] = useState('load');
   const [reqData, setReqData] = useState({ page: 1, limit: 25, });
 
   useEffect(() => {
+    setLoadState('load');
+    
     const { page, limit } = reqData;
     const path = `https://d5dpil1j3vqslj3529om.apigw.yandexcloud.net/api/v1/transactions?limit=${limit}&page=${page}`;
     //const path = `http://localhost:8080/transactions?page=${page}&limit=${limit}`; // local
     const getData = async () => await axios.get(path)
-    .then(({ data }) => !!data.data && setReqData(filterData(data))); // может стоит заменить на то,
+    .then(({ data }) => {
+      !!data.data && setReqData(filterData(data))
+      setLoadState('loaded');
+    }); // может стоит заменить на то,
     getData();                                                        // как делали на ноде в яндексе
   }, [reqData.page, reqData.limit]);
 
-  return (
+  if (loadState === 'load') {
+    return <RenderSpinner />
+  } else {
+    return (
       <>
-      {reqData.data && 
-        <>
         <div className="table">
           <RenderTags tags={reqData.data[0]}/>
           <RenderBody body={reqData.data} />
@@ -74,10 +82,9 @@ const RenderTableTransactions = () => {
               <th><RenderPagination reqData={reqData} setReqData={setReqData} /></th>
             </tr>}
         </div>
-        </>
-         || <div>Loaded</div>}
       </>
-  );
+    )
+  }
 };
 
 export default RenderTableTransactions;

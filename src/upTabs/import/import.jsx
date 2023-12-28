@@ -57,8 +57,6 @@ const Import = () => {
     // reader.readAsDataURL(file);
   };
 
-  console.log(modalIsOpen);
-
   return (
     <>
       <form className="mb-3" onChange={setFile}>

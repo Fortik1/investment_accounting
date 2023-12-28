@@ -4,6 +4,7 @@ import { uniqueId } from "lodash";
 import { normalizDate } from "../TableTransactions/filterData";
 import { Nav } from "react-bootstrap";
 import FullInformationOnName from "./FullInformationOnName.js";
+import RenderSpinner from "../RenderSpinner.jsx";
 
 // accruedCouponEod (нужно умножить на count) он в % -> ((accruedCouponEod / 100) * principal) * count <- сумма нкд
 const RenderActiveTypeButtun = ({ activeType, setActiveType }) => {
@@ -60,14 +61,6 @@ const RenderBody = ({ body, length, widthStyle }) => {
         </div>
       )}
     </>
-  )
-};
-
-const RenderSpinner = () => {
-  return (
-    <svg className="spinner" viewBox="0 0 50 50">
-      <circle className="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"/>
-    </svg>
   )
 };
 
