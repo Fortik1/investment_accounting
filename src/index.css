@@ -119,6 +119,14 @@ html, body {
   background: white;
 }
 
+.portfolio-body:nth-child(odd) {
+  background: #e9e9e9;
+}
+
+.portfolio-body:nth-child(odd) * {
+  background: #e9e9e9;
+}
+
 .spinner {
   animation: rotate 2s linear infinite;
   z-index: 2;
