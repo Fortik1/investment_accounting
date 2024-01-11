@@ -24,31 +24,31 @@ class FullInformationOnName {
         correctName: "Name",
         width: 120
       }, 
-      "priceAvg": {
+      "price_avg": {
         correctName: "Price Avg",
         width: 90
       },
-      "priceDaily": {
+      "price_daily": {
         correctName: `Price ${this.date}`,
         width: 150
       },
-      "yieldAvg": {
+      "yield_avg": {
         correctName: "Yield Avg",
         width: 90,
       },
-      "yieldDaily": {
+      "yield_daily": {
         correctName: `Yield ${this.date}`,
         width: 150
       },
-      "couponPaymentFrequency": {
+      "coupon_payment_frequency": {
         correctName: "Coupons",
         width: 90
       },
-      "type": {
+      "instrument_type": {
         correctName: "Type",
         width: 70
       },
-      "accruedCouponEod": {
+      "accrued_coupon_eod": {
         correctName: "NKD",
         width: 150
       },
@@ -56,7 +56,7 @@ class FullInformationOnName {
         correctName: "Count",
         width: 100
       },
-      "currentInvestment": {
+      "current_investment": {
         correctName: "CI",
         width: 100
       },
@@ -68,11 +68,11 @@ class FullInformationOnName {
         correctName: "Ccy",
         width: 50
       },
-      "dateDaily": {
+      "date_daily": {
         correctName: "Daily Date",
         width: 100
       },
-      "duration": {
+      "duration_daily": {
         correctName: "Duration",
         width: 100
       },
@@ -80,18 +80,18 @@ class FullInformationOnName {
         correctName: "ISIN",
         width: 150
       },
-      "maturityDate": {
-        correctName: "Maturity Date",
-        width: 100
-      },
-      'activeType': ['name', 'priceAvg', 'priceDaily', 'yieldAvg', 'yieldDaily', 'couponPaymentFrequency', 'type', 'accruedCouponEod', 'count', 'currentInvestment'],
+      // "maturityDate": {
+      //   correctName: "Maturity Date",
+      //   width: 100
+      // },
+      'activeType': ['name', 'price_avg', 'price_daily', 'yield_avg', 'yield_daily', 'coupon_payment_frequency', 'instrument_type', 'accrued_coupon_eod', 'count', 'current_investment'],
     };
   }
 
   addData(data) {
     this.informations.data = data.reduce((acc, element) => {
-      const { type } = element;
-      acc[type].push(element);
+      const { instrument_type } = element;
+      acc[instrument_type].push(element);
       acc.all.push(element);
       return acc;
     }, { all: [], bond: [], stock: [] });
@@ -118,18 +118,17 @@ class FullInformationOnName {
 
     return this.informations.data[type].map((element) => {
       const filterData = pick(element, this.informations.activeType);
-      const nkdName = 'accruedCouponEod';
+      const nkdName = 'accrued_coupon_eod';
 
       filterData[nkdName] = element[nkdName] / 100 * this.principal * element.count || null;
-      filterData['yieldDaily'] = filterData['yieldDaily'] * 100 || null;
-      filterData['yieldAvg'] = filterData['yieldAvg'] * 100 || null;
+      filterData['yield_daily'] = filterData['yield_daily'] * 100 || null;
+      filterData['yield_avg'] = filterData['yield_avg'] * 100 || null;
       
       Object.keys(element).forEach((key) => {
         if (typeof filterData[key] === 'number') {
           filterData[key] = filterData[key].toFixed(2).replace('.', ',');
         }
       });
-
       return filterData;
     });
   }
@@ -150,12 +149,12 @@ class FullInformationOnName {
   getInfoForLine(type) {
     type = type.toLowerCase();
     const data = this.getData(type);
-    const nameForInfo = ['accruedCouponEod', 'yieldAvg', 'yieldDaily', 'currentInvestment'];
+    const nameForInfo = ['accrued_coupon_eod', 'yield_avg', 'yield_daily', 'current_investment'];
     const sumsFunctions = {
-      accruedCouponEod: getSumAndCountByName(data, 'accruedCouponEod').sum,
-      yieldAvg: getAvgFromSumFunction(getSumAndCountByName(data, 'yieldAvg')),
-      yieldDaily: getAvgFromSumFunction(getSumAndCountByName(data, 'yieldDaily')),
-      currentInvestment: getSumAndCountByName(data, 'currentInvestment').sum
+      accruedCouponEod: getSumAndCountByName(data, 'accrued_coupon_eod').sum,
+      yieldAvg: getAvgFromSumFunction(getSumAndCountByName(data, 'yield_avg')),
+      yieldDaily: getAvgFromSumFunction(getSumAndCountByName(data, 'yield_daily')),
+      currentInvestment: getSumAndCountByName(data, 'current_investment').sum
     }
 
     return Object.keys(pick(data[0], this.informations.activeType)).map((name) => {

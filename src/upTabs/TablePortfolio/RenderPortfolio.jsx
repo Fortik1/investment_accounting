@@ -48,6 +48,7 @@ const RenderTags = ({ tags, length }) => {
 };
 
 const RenderBody = ({ body, length, widthStyle }) => {
+  console.log(body, length, widthStyle)
   return (
     <>
       {body.map((element) =>
@@ -75,7 +76,7 @@ const RenderPortfolio = () => {
     (function async () { 
       axios.get(path)
         .then(({ data }) => {
-        const newStateClass = new FullInformationOnName(normalizDate(data[0].dateDaily));
+        const newStateClass = new FullInformationOnName(normalizDate(data[0].date_daily));
         newStateClass.addData(data);
         setTestClass(newStateClass);
         setLoadStete('loaded');
