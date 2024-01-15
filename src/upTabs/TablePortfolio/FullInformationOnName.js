@@ -32,11 +32,11 @@ class FullInformationOnName {
         correctName: `Price ${this.date}`,
         width: 150
       },
-      "yield_avg": {
+      "yield_instrument_avg": {
         correctName: "Yield Avg",
         width: 90,
       },
-      "yield_daily": {
+      "yield_instrument_daily": {
         correctName: `Yield ${this.date}`,
         width: 150
       },
@@ -84,7 +84,7 @@ class FullInformationOnName {
         correctName: "Maturity Date",
         width: 100
       },
-      'activeType': ['name', 'price_avg', 'price_daily', 'yield_avg', 'yield_daily', 'coupon_payment_frequency', 'instrument_type', 'accrued_coupon_eod', 'count', 'current_investment'],
+      'activeType': ['name', 'price_avg', 'price_daily', 'yield_instrument_avg', 'yield_instrument_daily', 'coupon_payment_frequency', 'instrument_type', 'accrued_coupon_eod', 'count', 'current_investment'],
     };
   }
 
@@ -121,8 +121,8 @@ class FullInformationOnName {
       const nkdName = 'accrued_coupon_eod';
 
       filterData[nkdName] = element[nkdName] / 100 * this.principal * element.count || null;
-      filterData['yield_daily'] = filterData['yield_daily'] * 100 || null;
-      filterData['yield_avg'] = filterData['yield_avg'] * 100 || null;
+      filterData['yield_instrument_daily'] = filterData['yield_instrument_daily'] * 100 || null;
+      filterData['yield_instrument_avg'] = filterData['yield_instrument_avg'] * 100 || null;
       
       Object.keys(element).forEach((key) => {
         if (typeof filterData[key] === 'number') {
@@ -149,15 +149,15 @@ class FullInformationOnName {
   getInfoForLine(type) {
     type = type.toLowerCase();
     const data = this.getData(type);
-    const nameForInfo = ['accrued_coupon_eod', 'yield_avg', 'yield_daily', 'current_investment'];
+    const nameForInfo = ['accrued_coupon_eod', 'yield_instrument_avg', 'yield_instrument_daily', 'current_investment'];
     const sumsFunctions = {
-      accruedCouponEod: getSumAndCountByName(data, 'accrued_coupon_eod').sum,
-      yieldAvg: getAvgFromSumFunction(getSumAndCountByName(data, 'yield_avg')),
-      yieldDaily: getAvgFromSumFunction(getSumAndCountByName(data, 'yield_daily')),
-      currentInvestment: getSumAndCountByName(data, 'current_investment').sum
+      accrued_coupon_eod: getSumAndCountByName(data, 'accrued_coupon_eod').sum,
+      yield_instrument_avg: getAvgFromSumFunction(getSumAndCountByName(data, 'yield_instrument_avg')),
+      yield_instrument_daily: getAvgFromSumFunction(getSumAndCountByName(data, 'yield_instrument_daily')),
+      current_investment: getSumAndCountByName(data, 'current_investment').sum
     }
 
-    return Object.keys(pick(data[0], this.informations.activeType)).map((name) => {
+    return this.informations.activeType.map((name) => {
       const styleWidth = this.informations[name].width;
       if (nameForInfo.includes(name)) {
         return {
