@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e64da4da0d0546cb8dcebad67b84d524",
+    "revision": "d30dfcf41869b6bdd95e47cffb1c3de4",
     "url": "/investment_accounting/index.html"
   },
   {
-    "revision": "30a1110b5e71f05ad7cb",
+    "revision": "1ca5b303c04096c0a349",
     "url": "/investment_accounting/static/css/2.75bc9036.chunk.css"
   },
   {
-    "revision": "e32acd736ef7f3ccd329",
+    "revision": "ede7c0526e09c1d018cc",
     "url": "/investment_accounting/static/css/main.ca042ae9.chunk.css"
   },
   {
-    "revision": "30a1110b5e71f05ad7cb",
-    "url": "/investment_accounting/static/js/2.c4368f07.chunk.js"
+    "revision": "1ca5b303c04096c0a349",
+    "url": "/investment_accounting/static/js/2.f8285270.chunk.js"
   },
   {
-    "revision": "e32acd736ef7f3ccd329",
-    "url": "/investment_accounting/static/js/main.c066c32c.chunk.js"
+    "revision": "ede7c0526e09c1d018cc",
+    "url": "/investment_accounting/static/js/main.d787db06.chunk.js"
   },
   {
     "revision": "ca07c6f29de0ddcc1910",
