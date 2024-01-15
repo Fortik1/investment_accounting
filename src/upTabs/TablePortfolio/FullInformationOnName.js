@@ -80,7 +80,7 @@ class FullInformationOnName {
         correctName: "ISIN",
         width: 150
       },
-      "maturityDate": {
+      "maturity_date": {
         correctName: "Maturity Date",
         width: 100
       },
@@ -134,7 +134,7 @@ class FullInformationOnName {
   }
 
   getLength() {
-    return Object.keys(pick(this.informations.data.all[0], this.informations.activeType))
+    return this.informations.activeType
       .reduce((sumWidth, name) => sumWidth + this.informations[name].width + 20, 0);
   }
 
