@@ -80,10 +80,10 @@ class FullInformationOnName {
         correctName: "ISIN",
         width: 150
       },
-      // "maturityDate": {
-      //   correctName: "Maturity Date",
-      //   width: 100
-      // },
+      "maturityDate": {
+        correctName: "Maturity Date",
+        width: 100
+      },
       'activeType': ['name', 'price_avg', 'price_daily', 'yield_avg', 'yield_daily', 'coupon_payment_frequency', 'instrument_type', 'accrued_coupon_eod', 'count', 'current_investment'],
     };
   }
