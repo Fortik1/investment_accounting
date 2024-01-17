@@ -5,6 +5,7 @@ import { normalizDate } from "../TableTransactions/filterData";
 import { Nav } from "react-bootstrap";
 import FullInformationOnName from "./FullInformationOnName.js";
 import RenderSpinner from "../RenderSpinner.jsx";
+import GetErrors from '../../errors/GetErrors.jsx';
 
 // accruedCouponEod (нужно умножить на count) он в % -> ((accruedCouponEod / 100) * principal) * count <- сумма нкд
 const RenderActiveTypeButtun = ({ activeType, setActiveType }) => {
@@ -55,7 +56,9 @@ const RenderBody = ({ body, length, widthStyle }) => {
           {Object.entries(element).map(([key, value]) =>
             <div key={uniqueId()} style={{ 
               width: widthStyle[key] + "px",
-              textAlign: new RegExp(/\d,\d/).test(value) ? "right" : null
+              textAlign: new RegExp(/\d,\d/).test(value) ? 
+              "right" : key === 'count' ? 
+              "right" : null
             }}>{value}</div>
           )}
         </div>
@@ -65,6 +68,7 @@ const RenderBody = ({ body, length, widthStyle }) => {
 };
 
 const RenderPortfolio = () => {
+  const [errorCode, setErrorCode] = useState(null);
   const [loadState, setLoadStete] = useState('load');
   const [activeType, setActiveType] = useState('All');
   const [testClass, setTestClass] = useState(new FullInformationOnName('-'));
@@ -76,13 +80,21 @@ const RenderPortfolio = () => {
       axios.get(path)
         .then(({ data }) => {
         const newStateClass = new FullInformationOnName(normalizDate(data[0].date_daily));
-        console.log(data)
         newStateClass.addData(data);
         setTestClass(newStateClass);
         setLoadStete('loaded');
+      })
+      .catch((e) => {
+        const errCode = e.code;
+        setErrorCode(errCode);
       });
     }());
+
   }, []);
+
+  if (errorCode !== null) {
+    return GetErrors(errorCode);
+  }
 
   if (loadState === 'load') {
     return <RenderSpinner />

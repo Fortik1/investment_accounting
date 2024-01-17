@@ -1,8 +1,18 @@
 import { pick } from "lodash";
 import BigNumber from "bignumber.js";
+import { chunk } from "lodash";
+
+const normalizeNumber = (number) => {
+  const splitName = number.split(',');
+  const reverse = [...splitName[0]].reverse().join('');
+  const secondNumber = splitName[1] || 0;
+  const normNumber = chunk(reverse, 3).reverse().map((num) => num.reverse().join('')).join(' ') + ',' + secondNumber;
+  return normNumber;
+} 
 
 const getSumAndCountByName = (elements, name) => elements.reduce((acc, element) => {
   if (element[name]) {
+    element[name] = element[name].split(' ').join('');
     const sumBigNumber = new BigNumber(acc.sum);
     acc.sum = sumBigNumber.plus(Number(element[name].replace(',', '.'))).toString();
     acc.count += 1;
@@ -50,7 +60,7 @@ class FullInformationOnName {
       },
       "accrued_coupon_eod": {
         correctName: "NKD",
-        width: 150
+        width: 170
       },
       "count": {
         correctName: "Count",
@@ -125,8 +135,11 @@ class FullInformationOnName {
       filterData['yield_instrument_avg'] = filterData['yield_instrument_avg'] * 100 || null;
       
       Object.keys(element).forEach((key) => {
-        if (typeof filterData[key] === 'number') {
-          filterData[key] = filterData[key].toFixed(2).replace('.', ',');
+        if (key === 'count') {
+          filterData[key]= normalizeNumber(`${filterData[key]},0`).split(',')[0]
+        } else if (typeof filterData[key] === 'number') {
+          const number = filterData[key].toFixed(2).replace('.', ',');
+          filterData[key] = normalizeNumber(number);
         }
       });
       return filterData;
@@ -161,7 +174,7 @@ class FullInformationOnName {
       const styleWidth = this.informations[name].width;
       if (nameForInfo.includes(name)) {
         return {
-          value: sumsFunctions[name] === 'NaN' ? null : sumsFunctions[name],
+          value: sumsFunctions[name] === 'NaN' ? null : normalizeNumber(`${sumsFunctions[name]}`.replace('.', ',')),
           styleWidth
         } 
       } else {
